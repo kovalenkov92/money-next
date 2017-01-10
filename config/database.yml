@@ -1,0 +1,16 @@
+default: &default
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+  username: superhot
+  password: banzai
+  host: localhost
+test:
+  <<: *default
+  database: moneynext_db_test
+production:
+  <<: *default
+  database: moneynext_db_production
+development:
+  <<: *default
+  database: moneynext_db_development
