@@ -10,12 +10,19 @@ Rails.application.routes.draw do
 
   resources :categories, only: [:index, :create, :update, :destroy, :show]
 
-    resources :sessions, only: [:create] do
-      collection do
-        delete :destroy
-        get :check
-      end
+  resources :charts do
+    collection do
+      get :pie_chart
+      get :area_chart
     end
+  end
+
+  resources :sessions, only: [:create] do
+    collection do
+      delete :destroy
+      get :check
+    end
+  end
 
   end
 

@@ -1,5 +1,6 @@
 export const paperStyle = {
-  padding: '2em'
+  padding: '2em',
+  margin: '2em auto'
 };
 export const snackBarStyle = {
   success: {

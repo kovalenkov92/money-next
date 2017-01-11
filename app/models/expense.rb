@@ -19,8 +19,10 @@ class Expense < ActiveRecord::Base
     end
 
     q.where(expenses[:id].eq(params[:id])) if params[:id].present?
-    q.where(expenses[:comment].matches("%#{params[:comment]}%")) if params[:comment].present?
-    q.where(expenses[:date].in(Date.parse(params[:date]).beginning_of_day..Date.parse(params[:date]).end_of_day)) if params[:date].present?
+    q.where(expenses[:comment].matches("%#{params[:comment]}%"))                                                                    if params[:comment].present?
+    q.where(expenses[:date].gteq(Date.parse(params[:from_date])))                                                                   if params[:from_date].present?
+    q.where(expenses[:date].lteq(Date.parse(params[:to_date])))                                                                     if params[:to_date].present?
+    q.where(expenses[:date].in(Date.parse(params[:date]).beginning_of_day..Date.parse(params[:date]).end_of_day))                   if params[:date].present?
     q.where(expenses[:created_at].in(Date.parse(params[:created_at]).beginning_of_day..Date.parse(params[:created_at]).end_of_day)) if params[:created_at].present?
     q.where(expenses[:updated_at].in(Date.parse(params[:updated_at]).beginning_of_day..Date.parse(params[:updated_at]).end_of_day)) if params[:updated_at].present?
 

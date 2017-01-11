@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Grid, Row, Col } from 'react-bootstrap';
 import {AppBar, Drawer, MenuItem, IconButton} from 'material-ui';
 import { logout } from '../../../services/sessions';
-import { LogoutIcon, WalletIcon, ExpenseIcon, CategoriesIcon } from '../../common/icons';
+import { LogoutIcon, WalletIcon, ExpenseIcon, CategoriesIcon, DashboardIcon } from '../../common/icons';
 import { ActionOpenInNew, EditorAttachMoney } from 'material-ui/svg-icons';
 
 class HomePage extends Component {
@@ -25,6 +25,9 @@ class HomePage extends Component {
             onRequestChange={(open) => this.setState({open})}
           >
             {/*generated routes:*/}
+            <MenuItem onTouchTap={this.handleToggle} href='#/' leftIcon={<DashboardIcon />}>
+              Dashboard
+            </MenuItem>
             <MenuItem onTouchTap={this.handleToggle} href='#/currencies' leftIcon={<EditorAttachMoney />}>
               Currencies
             </MenuItem>
@@ -41,7 +44,6 @@ class HomePage extends Component {
           <Grid>
             <Row>
               <Col md={12}>
-                <br/>
                 <br/>
                 <br/>
                 {this.props.children}

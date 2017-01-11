@@ -1,6 +1,6 @@
 class Category < ActiveRecord::Base
 
-
+  has_many :expenses
 
   def self.search_query(params)
     categories = Category.arel_table
