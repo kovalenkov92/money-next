@@ -17,9 +17,6 @@ class AreaChart extends Component {
       title: {
         text: title
       },
-      tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-      },
       xAxis: {
         categories: xAxis,
         crosshair: true
