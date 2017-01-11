@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Paper, DatePicker } from 'material-ui';
-import { Row, Col } from 'react-bootstrap';
+import { DatePicker, TextField, Tabs, Tab } from 'material-ui';
+import { Col, Clearfix } from 'react-bootstrap';
 import moment from 'moment';
-import { paperStyle } from '../../common/styles';
 import PieChart from '../../common/piechart';
 import AreaChart from '../../common/areachart';
 import { getPieChart, getAreaChart } from '../../../services/charts';
+import { PieChartIcon, AreaChartIcon } from '../../common/icons';
 
 class Dashboard extends Component {
   state = {
@@ -28,16 +28,26 @@ class Dashboard extends Component {
 
   pieData = () => {
     const { pieFilters } = this.state;
-    getPieChart(pieFilters).success(res => {
-      this.setState({pieChart:res.chart})
-    })
+    if (this.pieTimer) {
+      clearTimeout(this.pieTimer);
+    }
+    this.pieTimer = setTimeout(() => {
+      getPieChart(pieFilters).success(res => {
+        this.setState({pieChart:res.chart})
+      })
+    }, 500)
   };
 
   areaData = () => {
     const { areaFilters } = this.state;
-    getAreaChart(areaFilters).success(res => {
-      this.setState({areaChart:res})
-    })
+    if (this.areaTimer) {
+      clearTimeout(this.areaTimer);
+    }
+    this.areaTimer = setTimeout(() => {
+      getAreaChart(areaFilters).success(res => {
+        this.setState({areaChart:res})
+      })
+    }, 500)
   };
 
   updateFilters = (key,value,scope) => {
@@ -52,45 +62,56 @@ class Dashboard extends Component {
 
   render() {
     const { pieFilters, areaFilters } = this.state;
-    console.log(this.state.pieChart);
     return (
       <div>
-        <Paper style={paperStyle} zDepth={1}>
-          <Row>
-            <Col md={6}>
-              <DatePicker hintText='From' container="inline" mode='landscape'
-                          value={pieFilters.from_date} fullWidth={true}
-                          onChange={(_,val) => this.updateFilters('from_date', val, 'pie')} />
-            </Col>
-            <Col md={6}>
-              <DatePicker hintText='To' container="inline" mode='landscape'
-                          value={pieFilters.to_date} fullWidth={true}
-                          onChange={(_,val) => this.updateFilters('to_date', val, 'pie')} />
+          <Tabs
+            value={this.state.value}
+            onChange={this.handleChange}
+          >
+            <Tab icon={<PieChartIcon />} label='Pie Chart'>
+              <div style={{background:'#fff'}}>
+                <Col md={6}>
+                  <DatePicker hintText='From' container="inline" mode='landscape'
+                              value={pieFilters.from_date} fullWidth={true}
+                              onChange={(_,val) => this.updateFilters('from_date', val, 'pie')} />
+                </Col>
+                <Col md={6}>
+                  <DatePicker hintText='To' container="inline" mode='landscape'
+                              value={pieFilters.to_date} fullWidth={true}
+                              onChange={(_,val) => this.updateFilters('to_date', val, 'pie')} />
 
-            </Col>
-            <Col md={12}>
-              <PieChart data={this.state.pieChart} name="Expenses" title="Pie Chart" />
-            </Col>
-          </Row>
-        </Paper>
-        <Paper style={paperStyle} zDepth={1}>
-          <Row>
-            <Col md={6}>
-              <DatePicker hintText='From' container="inline" mode='landscape'
-                          value={areaFilters.from_date} fullWidth={true}
-                          onChange={(_,val) => this.updateFilters('from_date', val, 'area')} />
-            </Col>
-            <Col md={6}>
-              <DatePicker hintText='To' container="inline" mode='landscape'
-                          value={areaFilters.to_date} fullWidth={true}
-                          onChange={(_,val) => this.updateFilters('to_date', val, 'area')} />
+                </Col>
+                <Col md={12}>
+                  <PieChart data={this.state.pieChart} name="Expenses" title="Pie Chart" />
+                </Col>
+                <Clearfix />
+              </div>
+            </Tab>
+            <Tab label="Area Chart" icon={<AreaChartIcon />}>
+              <div style={{background:'#fff'}}>
+                <Col md={6}>
+                  <DatePicker hintText='From' container="inline" mode='landscape'
+                              value={areaFilters.from_date} fullWidth={true}
+                              onChange={(_,val) => this.updateFilters('from_date', val, 'area')} />
+                </Col>
+                <Col md={6}>
+                  <DatePicker hintText='To' container="inline" mode='landscape'
+                              value={areaFilters.to_date} fullWidth={true}
+                              onChange={(_,val) => this.updateFilters('to_date', val, 'area')} />
 
-            </Col>
-            <Col md={12}>
-              <AreaChart data={this.state.areaChart.data} name="Expenses" title="Area Chart" xAxis={this.state.areaChart.xAxis} />
-            </Col>
-          </Row>
-        </Paper>
+                </Col>
+                <Col md={6}>
+                  <TextField hintText='Category' value={areaFilters.category} fullWidth={true}
+                             onChange={(_,val) => this.updateFilters('category',val, 'area')} />
+
+                </Col>
+                <Col md={12}>
+                  <AreaChart data={this.state.areaChart.data} name="Expenses" title="Area Chart" xAxis={this.state.areaChart.xAxis} />
+                </Col>
+                <Clearfix />
+              </div>
+            </Tab>
+          </Tabs>
       </div>
     );
   }

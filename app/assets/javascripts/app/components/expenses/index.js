@@ -107,7 +107,7 @@ class Expenses extends Component {
             />
           </Col>
         </Row>
-        <Filters columns={[{ label: 'Amount', key: 'amount', type: 'float' },{ label: 'Comment', key: 'comment', type: 'text' },{ label: 'Date', key: 'date', type: 'datetime' },{ label: 'Category', key: 'category_id', type: 'integer' },]} update={this.updateFilters} />
+        <Filters columns={[{ label: 'Amount', key: 'amount', type: 'float' },{ label: 'Comment', key: 'comment', type: 'text' },{ label: 'Date', key: 'date', type: 'datetime' },{ label: 'Category', key: 'category', type: 'string' },]} update={this.updateFilters} />
         <Table>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>

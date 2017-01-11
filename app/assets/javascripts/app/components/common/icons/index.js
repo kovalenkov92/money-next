@@ -3,11 +3,15 @@ import LogoutIcon from './logout'
 import ExpenseIcon from './expense';
 import CategoriesIcon from './categories';
 import DashboardIcon from './dashboard';
+import PieChartIcon from './pieChart';
+import AreaChartIcon from './areaChart';
 
 export {
   WalletIcon,
   LogoutIcon,
   ExpenseIcon,
   CategoriesIcon,
-  DashboardIcon
+  DashboardIcon,
+  PieChartIcon,
+  AreaChartIcon
 }

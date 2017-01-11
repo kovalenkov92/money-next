@@ -5,7 +5,12 @@ class PieChart extends Component {
   state = this.props;
 
   componentWillReceiveProps(nextProps) {
-    this.setState(nextProps, this._drawPie)
+    if (this.timer) {
+      clearTimeout(this.timer)
+    }
+    this.timer = setTimeout(() => {
+      this.setState(nextProps, this._drawPie)
+    }, 500)
   }
 
   _drawPie = () => {
