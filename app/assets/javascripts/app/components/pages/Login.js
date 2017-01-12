@@ -24,7 +24,7 @@ class LoginPage extends Component {
       <div className="login-page">
         <div>
           <img src="/images/keys.png" className="login-image" />
-          <h1>Moneytrackernext</h1>
+          <h1>Money next</h1>
           <form onSubmit={e => {e.preventDefault(); this.handleLogin() }} className="login-form">
             <TextField hintText="Email address" fullWidth={true}
                        onChange={(_,val) => this.handleChange('email', val)} />

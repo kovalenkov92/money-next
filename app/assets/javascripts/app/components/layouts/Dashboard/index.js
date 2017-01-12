@@ -13,7 +13,7 @@ class HomePage extends Component {
   render() {
     return (
         <div className="dashboard-page">
-          <AppBar title="Moneytrackernext"
+          <AppBar title="Money next"
                   onLeftIconButtonTouchTap={ this.handleToggle }
                   iconElementRight={<IconButton onTouchTap={logout}><LogoutIcon /></IconButton>}
 

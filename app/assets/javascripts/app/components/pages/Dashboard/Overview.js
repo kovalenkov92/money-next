@@ -69,7 +69,7 @@ class Dashboard extends Component {
             onChange={this.handleChange}
           >
             <Tab icon={<PieChartIcon />} label='Pie Chart'>
-              <div style={{background:'#fff'}}>
+              <div style={{background:'#fff',minHeight:450}}>
                 <Col md={6}>
                   <DatePicker hintText='From' container="inline" mode='landscape'
                               value={pieFilters.from_date} fullWidth={true}
