@@ -71,12 +71,12 @@ class Dashboard extends Component {
             <Tab icon={<PieChartIcon />} label='Pie Chart'>
               <div style={{background:'#fff',minHeight:450}}>
                 <Col md={6}>
-                  <DatePicker hintText='From' container="inline" mode='landscape'
+                  <DatePicker hintText='From' container="inline"
                               value={pieFilters.from_date} fullWidth={true}
                               onChange={(_,val) => this.updateFilters('from_date', val, 'pie')} />
                 </Col>
                 <Col md={6}>
-                  <DatePicker hintText='To' container="inline" mode='landscape'
+                  <DatePicker hintText='To' container="inline"
                               value={pieFilters.to_date} fullWidth={true}
                               onChange={(_,val) => this.updateFilters('to_date', val, 'pie')} />
 
@@ -90,12 +90,12 @@ class Dashboard extends Component {
             <Tab label="Area Chart" icon={<AreaChartIcon />}>
               <div style={{background:'#fff'}}>
                 <Col md={6}>
-                  <DatePicker hintText='From' container="inline" mode='landscape'
+                  <DatePicker hintText='From' container="inline"
                               value={areaFilters.from_date} fullWidth={true}
                               onChange={(_,val) => this.updateFilters('from_date', val, 'area')} />
                 </Col>
                 <Col md={6}>
-                  <DatePicker hintText='To' container="inline" mode='landscape'
+                  <DatePicker hintText='To' container="inline"
                               value={areaFilters.to_date} fullWidth={true}
                               onChange={(_,val) => this.updateFilters('to_date', val, 'area')} />
 

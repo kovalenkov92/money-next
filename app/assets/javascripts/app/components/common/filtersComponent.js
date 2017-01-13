@@ -39,7 +39,7 @@ export default class Filters extends Component {
   renderFilterUnit = (column) => {
     switch (column.type) {
       case 'datetime':
-        return <DatePicker hintText={column.label} container="inline" mode="landscape" value={this.state[column.key]}
+        return <DatePicker hintText={column.label} container="inline" value={this.state[column.key]}
                            onChange={(_,val) => this.updateState(column.key, val)} />;
       default:
         return <TextField hintText={column.label} value={this.state[column.key]}

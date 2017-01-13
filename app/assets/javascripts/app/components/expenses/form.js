@@ -136,7 +136,7 @@ class ExpenseForm extends Component {
                   </ControlLabel>
                 </Col>
                 <Col sm={10}>
-                  <DatePicker hintText='Date' container="inline" mode="landscape" value={expense.date} onChange={(_,val) => this.handleChange('date', val)} />
+                  <DatePicker hintText='Date' container="inline" value={expense.date} onChange={(_,val) => this.handleChange('date', val)} />
                 </Col>
               </Row>
             </FormGroup>
