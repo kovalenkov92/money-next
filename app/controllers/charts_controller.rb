@@ -20,7 +20,7 @@ class ChartsController < ApplicationController
     query = Expense.search_query params
     expenses = Expense.find_by_sql(query.to_sql)
     arr = []
-    while start_date < end_date
+    while start_date <= end_date
       in_range = expenses.select{ |e| (start_date.beginning_of_day..start_date.end_of_day).cover? e.date }
       arr << in_range.map(&:amount).sum
       start_date += 1.day
