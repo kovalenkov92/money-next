@@ -1,6 +1,6 @@
 class Currency < ActiveRecord::Base
 
-
+  has_many :purses, dependent: :destroy
 
   def self.search_query(params)
     currencies = Currency.arel_table

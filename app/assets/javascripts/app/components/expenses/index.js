@@ -17,9 +17,9 @@ import {
   CircularProgress
 } from 'material-ui';
 import {
-  ActionOpenInNew,
   ImageEdit,
-  ActionDelete
+  ActionDelete,
+  ActionVisibility
 } from 'material-ui/svg-icons';
 import SortingTh from '../common/SortingTh';
 import Filters from '../common/filtersComponent';
@@ -134,7 +134,7 @@ class Expenses extends Component {
                     <TableRowColumn>{ item.category  }</TableRowColumn>
                     <TableRowColumn>{ item.created_at  }</TableRowColumn>
                     <TableRowColumn className='text-right'>
-                      <IconButton onTouchTap={() => location.hash = `#/expense/${item.id}`}><ActionOpenInNew color="#3f51b5" /></IconButton>
+                      <IconButton onTouchTap={() => location.hash = `#/expense/${item.id}`}><ActionVisibility color="#3f51b5" /></IconButton>
                       <IconButton onTouchTap={() => location.hash = `#/expense/${item.id}/edit`}><ImageEdit color="#ff8f00" /></IconButton>
                       <IconButton onTouchTap={this.prepareToDestroy.bind(this,item)}><ActionDelete color="#c62828" /></IconButton>
                     </TableRowColumn>
@@ -147,8 +147,8 @@ class Expenses extends Component {
         <Dialog
           title="Are you sure?"
           actions={[
-            <FlatButton primary={true} onTouchTap={this.closeConfirm} label='Cancel'/>,
-            <FlatButton primary={true} onTouchTap={this.handleDelete} label='Confirm' />
+            <FlatButton onTouchTap={this.closeConfirm} label='Cancel'/>,
+            <FlatButton secondary={true} onTouchTap={this.handleDelete} label='Confirm' />
           ]}
           modal={false}
           open={showConfirm}

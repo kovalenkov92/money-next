@@ -17,7 +17,7 @@ import {
   CircularProgress
 } from 'material-ui';
 import {
-  ActionOpenInNew,
+  ActionVisibility,
   ImageEdit,
   ActionDelete
 } from 'material-ui/svg-icons';
@@ -61,7 +61,7 @@ class Purses extends Component {
     });
   };
 
-  selectRecord = record => {
+  prepareToDestroy = record => {
     this.setState({
       selectedRecord: record,
       showConfirm: true
@@ -128,9 +128,9 @@ class Purses extends Component {
                     <TableRowColumn>{ item.created_at  }</TableRowColumn>
                     <TableRowColumn className='text-right'>
 
-                      <IconButton onTouchTap={() => location.hash = `#/purse/${item.id}`}><ActionOpenInNew color="#3f51b5" /></IconButton>
+                      <IconButton onTouchTap={() => location.hash = `#/purse/${item.id}`}><ActionVisibility color="#3f51b5" /></IconButton>
                       <IconButton onTouchTap={() => location.hash = `#/purse/${item.id}/edit`}><ImageEdit color="#ff8f00" /></IconButton>
-                      <IconButton onTouchTap={() => { this.selectRecord(item) }}><ActionDelete color="#c62828" /></IconButton>
+                      <IconButton onTouchTap={this.prepareToDestroy.bind(this,item)}><ActionDelete color="#c62828" /></IconButton>
                     </TableRowColumn>
                   </TableRow>
                 )
@@ -140,7 +140,10 @@ class Purses extends Component {
         </Table>
         <Dialog
           title="Are you sure?"
-          actions={[<FlatButton primary={true} onTouchTap={this.closeConfirm} label='Cancel'/>,<FlatButton primary={true} onTouchTap={this.handleDelete} label='Confirm' />]}
+          actions={[
+            <FlatButton onTouchTap={this.closeConfirm} label='Cancel'/>,
+            <FlatButton secondary={true} onTouchTap={this.handleDelete} label='Confirm' />
+          ]}
           modal={false}
           open={showConfirm}
           onRequestClose={this.closeConfirm}
