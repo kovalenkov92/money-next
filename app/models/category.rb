@@ -2,6 +2,8 @@ class Category < ActiveRecord::Base
 
   has_many :expenses
 
+  validates_presence_of :title, :color
+
   def self.search_query(params)
     categories = Category.arel_table
 

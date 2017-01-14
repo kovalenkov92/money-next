@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Highcharts from 'highcharts';
+import Chart from 'chart.js';
 
 class AreaChart extends Component {
   state = this.props;
@@ -14,48 +14,25 @@ class AreaChart extends Component {
   }
 
   _drawArea = () => {
-    const { data, name, title, xAxis } = this.state;
-    Highcharts.chart('areaContainer', {
-      chart: {
-        type: 'area'
-      },
-      title: {
-        text: title
-      },
-      xAxis: {
-        categories: xAxis,
-        crosshair: true
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: '$'
-        }
-      },
-      plotOptions: {
-        area: {
-          marker: {
-            enabled: false,
-            symbol: 'circle',
-            radius: 2,
-            states: {
-              hover: {
-                enabled: true
-              }
-            }
-          }
-        }
-      },
-      series: [{
-        name: name,
-        data: data
-      }]
-    })
+    const { data, xAxis } = this.state;
+
+    this.areaChart = new Chart('areaContainer', {
+      type: 'line',
+      data: {
+        labels: xAxis,
+        datasets: [{
+          label: 'Expenses during time',
+          backgroundColor: "rgba(226, 130, 52, .4)",
+          borderColor: "rgba(226, 130, 52, 1)",
+          data: data
+        }]
+      }
+    });
   };
 
   render() {
     return (
-      <div id="areaContainer"></div>
+      <canvas id="areaContainer"></canvas>
     );
   }
 

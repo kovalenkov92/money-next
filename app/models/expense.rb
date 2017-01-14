@@ -10,7 +10,10 @@ class Expense < ActiveRecord::Base
     categories = Category.arel_table
 
     q = expenses
-            .project('expenses.*', categories[:id].as('category_id'), categories[:title].as('category_title'))
+            .project('expenses.*',
+              categories[:id].as('category_id'),
+              categories[:title].as('category_title'),
+              categories[:color].as('category_color'))
             .join(categories).on(expenses[:category_id].eq(categories[:id]))
             .group(expenses[:id])
 
@@ -29,7 +32,7 @@ class Expense < ActiveRecord::Base
     q.where(expenses[:updated_at].in(Date.parse(params[:updated_at]).beginning_of_day..Date.parse(params[:updated_at]).end_of_day)) if params[:updated_at].present?
     q.where(categories[:title].matches("%#{params[:category]}%"))                                                                   if params[:category].present?
 
-    q.group(expenses[:id], categories[:id], categories[:title])
+    q.group(expenses[:id], categories[:id], categories[:title], categories[:color])
 
     q
   end

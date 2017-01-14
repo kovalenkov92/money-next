@@ -17,7 +17,7 @@ class Dashboard extends Component {
       from_date: new Date(moment().subtract(1, 'months')),
       to_date: new Date()
     },
-    pieChart: [],
+    pieChart: {},
     areaChart: {xAxis:[]}
   };
 
@@ -33,7 +33,7 @@ class Dashboard extends Component {
     }
     this.pieTimer = setTimeout(() => {
       getPieChart(pieFilters).success(res => {
-        this.setState({pieChart:res.chart})
+        this.setState({pieChart:res})
       })
     }, 500)
   };
@@ -61,7 +61,7 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { pieFilters, areaFilters } = this.state;
+    const { pieFilters, areaFilters, pieChart, areaChart } = this.state;
     return (
       <div>
           <Tabs
@@ -82,7 +82,7 @@ class Dashboard extends Component {
 
                 </Col>
                 <Col md={12}>
-                  <PieChart data={this.state.pieChart} name="Expenses" title="Pie Chart" />
+                  <PieChart data={pieChart.data} labels={pieChart.labels} colors={pieChart.colors} />
                 </Col>
                 <Clearfix />
               </div>
@@ -106,7 +106,7 @@ class Dashboard extends Component {
 
                 </Col>
                 <Col md={12}>
-                  <AreaChart data={this.state.areaChart.data} name="Expenses" title="Area Chart" xAxis={this.state.areaChart.xAxis} />
+                  <AreaChart data={areaChart.data} name="Expenses" title="Area Chart" xAxis={areaChart.xAxis} />
                 </Col>
                 <Clearfix />
               </div>

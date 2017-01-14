@@ -61,7 +61,7 @@ class Expenses extends Component {
     });
   };
 
-  selectRecord = record => {
+  prepareToDestroy = record => {
     this.setState({
       selectedRecord: record,
       showConfirm: true
@@ -107,7 +107,12 @@ class Expenses extends Component {
             />
           </Col>
         </Row>
-        <Filters columns={[{ label: 'Amount', key: 'amount', type: 'float' },{ label: 'Comment', key: 'comment', type: 'text' },{ label: 'Date', key: 'date', type: 'datetime' },{ label: 'Category', key: 'category', type: 'string' },]} update={this.updateFilters} />
+        <Filters columns={[
+          { label: 'Amount', key: 'amount', type: 'float' },
+          { label: 'Comment', key: 'comment', type: 'text' },
+          { label: 'Date', key: 'date', type: 'datetime' },
+          { label: 'Category', key: 'category', type: 'string' }
+        ]} update={this.updateFilters} />
         <Table>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
@@ -129,10 +134,9 @@ class Expenses extends Component {
                     <TableRowColumn>{ item.category  }</TableRowColumn>
                     <TableRowColumn>{ item.created_at  }</TableRowColumn>
                     <TableRowColumn className='text-right'>
-
                       <IconButton onTouchTap={() => location.hash = `#/expense/${item.id}`}><ActionOpenInNew color="#3f51b5" /></IconButton>
                       <IconButton onTouchTap={() => location.hash = `#/expense/${item.id}/edit`}><ImageEdit color="#ff8f00" /></IconButton>
-                      <IconButton onTouchTap={() => { this.selectRecord(item) }}><ActionDelete color="#c62828" /></IconButton>
+                      <IconButton onTouchTap={this.prepareToDestroy.bind(this,item)}><ActionDelete color="#c62828" /></IconButton>
                     </TableRowColumn>
                   </TableRow>
                 )
@@ -142,7 +146,10 @@ class Expenses extends Component {
         </Table>
         <Dialog
           title="Are you sure?"
-          actions={[<FlatButton primary={true} onTouchTap={this.closeConfirm} label='Cancel'/>,<FlatButton primary={true} onTouchTap={this.handleDelete} label='Confirm' />]}
+          actions={[
+            <FlatButton primary={true} onTouchTap={this.closeConfirm} label='Cancel'/>,
+            <FlatButton primary={true} onTouchTap={this.handleDelete} label='Confirm' />
+          ]}
           modal={false}
           open={showConfirm}
           onRequestClose={this.closeConfirm}

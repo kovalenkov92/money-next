@@ -85,6 +85,16 @@ class CategoryForm extends Component {
                   <TextField hintText='Title' fullWidth={true} value={category.title} onChange={(_,val) => this.handleChange('title', val)} />
                 </Col>
               </Row>
+              <Row>
+                <Col sm={2}>
+                  <ControlLabel>
+                    Color:
+                  </ControlLabel>
+                </Col>
+                <Col sm={10}>
+                  <input type='color' value={category.color} onChange={e => this.handleChange('color', e.target.value)} />
+                </Col>
+              </Row>
             </FormGroup>
             <Col sm={4} smOffset={8} className="text-right">
               <br/>

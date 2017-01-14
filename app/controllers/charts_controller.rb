@@ -1,13 +1,17 @@
 class ChartsController < ApplicationController
 
   def pie_chart
-    arr = []
+    labels = []
+    data = []
+    colors = []
     query = Expense.search_query params
     expenses = Expense.find_by_sql(query.to_sql)
     expenses.group_by { |el| el['category_id'] }.values.each do |exp|
-      arr << { name: exp.first['category_title'], y: exp.map(&:amount).sum }
+      labels << exp.first['category_title']
+      colors << exp.first['category_color']
+      data << exp.map(&:amount).sum
     end
-    render json: { chart: arr }
+    render json: { labels: labels, colors: colors, data: data }
   end
 
   def area_chart
@@ -22,7 +26,7 @@ class ChartsController < ApplicationController
       start_date += 1.day
     end
     x_axis = end_date.downto(Date.parse(params[:from_date]))
-                 .map{ |e| e.strftime('%Y-%m-%d') }
+                 .map{ |e| e.strftime('%d %b %Y') }
                  .reverse
     render json: { data: arr, xAxis: x_axis }
   end

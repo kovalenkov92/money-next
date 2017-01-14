@@ -9,6 +9,7 @@ export function upsert(model){
   let body = new FormData();
 
   body.append('category[title]', model.title || '' );
+  body.append('category[color]', model.color || '' );
 
   if(model.id){
     return http.put({ url:`/categories/${model.id}`, body })
