@@ -15,9 +15,7 @@ export default class Filters extends Component {
 
   updateParent() {
     const { update } = this.props;
-    const state = Object.keys(this.state).map(key => {
-      return {[key]:this.state[key]}
-    });
+    const state = Object.keys(this.state).map(key => ({[key]:this.state[key]}) );
     if (this.timer) {
       clearTimeout(this.timer);
     }
