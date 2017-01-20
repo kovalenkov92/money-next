@@ -105,6 +105,9 @@ class Dashboard extends Component {
                              onChange={(_,val) => this.updateFilters('category',val, 'area')} />
 
                 </Col>
+                <Col md={6}>
+                  <h4 className="text-right">Total: { areaChart.total }</h4>
+                </Col>
                 <Col md={12}>
                   <AreaChart data={areaChart.data} name="Expenses" title="Area Chart" xAxis={areaChart.xAxis} />
                 </Col>

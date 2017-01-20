@@ -28,7 +28,7 @@ class ChartsController < ApplicationController
     x_axis = end_date.downto(Date.parse(params[:from_date]))
                  .map{ |e| e.strftime('%d %b %Y') }
                  .reverse
-    render json: { data: arr, xAxis: x_axis }
+    render json: { data: arr, xAxis: x_axis, total: arr.sum }
   end
 
 end
