@@ -95,6 +95,7 @@ class Purses extends Component {
     const { isLoading } = this.props.app.main;
     const { purses, showConfirm } = this.state;
     const { pages_count } = this.state.filters;
+    const { palette } = this.context.muiTheme;
 
     return (
       <Paper style={paperStyle} zDepth={1}>
@@ -128,8 +129,8 @@ class Purses extends Component {
                     <TableRowColumn>{ item.created_at  }</TableRowColumn>
                     <TableRowColumn className='text-right'>
 
-                      <IconButton onTouchTap={() => location.hash = `#/purse/${item.id}`}><ActionVisibility color="#3f51b5" /></IconButton>
-                      <IconButton onTouchTap={() => location.hash = `#/purse/${item.id}/edit`}><ImageEdit color="#ff8f00" /></IconButton>
+                      <IconButton onTouchTap={() => location.hash = `#/purse/${item.id}`}><ActionVisibility color={palette.primary1Color} /></IconButton>
+                      <IconButton onTouchTap={() => location.hash = `#/purse/${item.id}/edit`}><ImageEdit color={palette.accent1Color} /></IconButton>
                       <IconButton onTouchTap={this.prepareToDestroy.bind(this,item)}><ActionDelete color="#c62828" /></IconButton>
                     </TableRowColumn>
                   </TableRow>
@@ -167,5 +168,9 @@ class Purses extends Component {
     )
   }
 }
+
+Purses.contextTypes = {
+  muiTheme: React.PropTypes.object.isRequired
+};
 
 export default connect(state => state)(Purses)
