@@ -22,6 +22,8 @@ class AreaChart extends Component {
         labels: xAxis,
         datasets: [{
           label: 'Expenses during time',
+          borderWidth: 2,
+          pointRadius: 1,
           backgroundColor: "rgba(226, 130, 52, .4)",
           borderColor: "rgba(226, 130, 52, 1)",
           data: data

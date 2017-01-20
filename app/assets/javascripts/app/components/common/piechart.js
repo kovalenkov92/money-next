@@ -18,6 +18,13 @@ class PieChart extends Component {
     if (this.pieChart) this.pieChart.destroy();
     this.pieChart = new Chart('pieChart', {
       type: 'pie',
+      options: {
+        cutoutPercentage: 50,
+        animation: {
+          animateRotate: false,
+          animateScale: true
+        },
+      },
       data: {
         labels: labels,
         datasets: [
