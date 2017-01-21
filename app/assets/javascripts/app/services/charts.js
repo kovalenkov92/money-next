@@ -6,8 +6,8 @@ export function getPieChart(filters) {
   return http.get({url})
 }
 
-export function getAreaChart(filters) {
-  let url = '/charts/area_chart?';
+export function getBarChart(filters) {
+  let url = '/charts/bar_chart?';
   Object.keys(filters).forEach(key => url += `${key}=${filters[key]}&`);
   return http.get({url})
 }

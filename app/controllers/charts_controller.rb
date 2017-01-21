@@ -14,20 +14,21 @@ class ChartsController < ApplicationController
     render json: { labels: labels, colors: colors, data: data }
   end
 
-  def area_chart
+  def bar_chart
     start_date =  Date.parse(params[:from_date])
     end_date = Date.parse(params[:to_date])
+    step = params[:step].to_i
+
     query = Expense.search_query params
     expenses = Expense.find_by_sql(query.to_sql)
+
     arr = []
-    while start_date <= end_date
-      in_range = expenses.select{ |e| (start_date.beginning_of_day..start_date.end_of_day).cover? e.date }
-      arr << in_range.map(&:amount).sum
-      start_date += 1.day
+    x_axis = []
+    start_date.step(end_date, step).each do |e|
+      arr << expenses.select{ |ex| (e.beginning_of_day..(e + (step - 1).days).end_of_day).cover? ex.date }.map(&:amount).sum
+      x_axis << (step == 1 ? e.strftime('%d %b %Y') : "#{e.strftime('%d %b %Y')} - #{(e + (step - 1).days).strftime('%d %b %Y')}")
     end
-    x_axis = end_date.downto(Date.parse(params[:from_date]))
-                 .map{ |e| e.strftime('%d %b %Y') }
-                 .reverse
+
     render json: { data: arr, xAxis: x_axis, total: arr.sum }
   end
 

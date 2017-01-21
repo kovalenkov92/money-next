@@ -120,7 +120,6 @@ class Expenses extends Component {
                 <TableHeaderColumn><SortingTh update={this.updateFilters} column='amount'>Amount</SortingTh></TableHeaderColumn>
                 <TableHeaderColumn><SortingTh update={this.updateFilters} column='date'>Date</SortingTh></TableHeaderColumn>
                 <TableHeaderColumn><SortingTh update={this.updateFilters} column='category_id'>Category</SortingTh></TableHeaderColumn>
-              <TableHeaderColumn><SortingTh update={this.updateFilters} column='created_at'>Created At</SortingTh></TableHeaderColumn>
               <TableHeaderColumn>Actions</TableHeaderColumn>
 
             </TableRow>
@@ -133,7 +132,6 @@ class Expenses extends Component {
                     <TableRowColumn>{ item.amount  }</TableRowColumn>
                     <TableRowColumn>{ item.date  }</TableRowColumn>
                     <TableRowColumn>{ item.category  }</TableRowColumn>
-                    <TableRowColumn>{ item.created_at  }</TableRowColumn>
                     <TableRowColumn className='text-right'>
                       <IconButton onTouchTap={() => location.hash = `#/expense/${item.id}`}><ActionVisibility color={palette.primary1Color} /></IconButton>
                       <IconButton onTouchTap={() => location.hash = `#/expense/${item.id}/edit`}><ImageEdit color={palette.accent1Color} /></IconButton>

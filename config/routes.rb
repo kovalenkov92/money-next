@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :charts do
     collection do
       get :pie_chart
-      get :area_chart
+      get :bar_chart
     end
   end
 

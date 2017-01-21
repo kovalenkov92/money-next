@@ -5,6 +5,7 @@ import CategoriesIcon from './categories';
 import DashboardIcon from './dashboard';
 import PieChartIcon from './pieChart';
 import AreaChartIcon from './areaChart';
+import BarChartIcon from './barChart';
 
 export {
   WalletIcon,
@@ -13,5 +14,6 @@ export {
   CategoriesIcon,
   DashboardIcon,
   PieChartIcon,
-  AreaChartIcon
+  AreaChartIcon,
+  BarChartIcon
 }

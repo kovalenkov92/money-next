@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {DatePicker, TextField, Tabs, Tab, CircularProgress} from 'material-ui';
+import {DatePicker, TextField, Tabs, Tab, CircularProgress, FlatButton} from 'material-ui';
 import {connect} from 'react-redux';
 import {Col, Clearfix} from 'react-bootstrap';
 import moment from 'moment';
 import PieChart from '../../common/piechart';
-import AreaChart from '../../common/areachart';
-import {getPieChart, getAreaChart} from '../../../services/charts';
-import {PieChartIcon, AreaChartIcon} from '../../common/icons';
+import BarChart from '../../common/barchart';
+import {getPieChart, getBarChart} from '../../../services/charts';
+import {PieChartIcon, BarChartIcon} from '../../common/icons';
 
 class Dashboard extends Component {
   state = {
@@ -14,17 +14,18 @@ class Dashboard extends Component {
       from_date: new Date(moment().subtract(1, 'months')),
       to_date: new Date()
     },
-    areaFilters: {
+    barFilters: {
       from_date: new Date(moment().subtract(1, 'months')),
-      to_date: new Date()
+      to_date: new Date(),
+      step: 1
     },
     pieChart: {},
-    areaChart: {xAxis: []}
+    barChart: {xAxis: []}
   };
 
   componentDidMount() {
     this.pieData();
-    this.areaData();
+    this.barData();
   }
 
   pieData = () => {
@@ -39,14 +40,14 @@ class Dashboard extends Component {
     }, 500)
   };
 
-  areaData = () => {
-    const {areaFilters} = this.state;
-    if (this.areaTimer) {
-      clearTimeout(this.areaTimer);
+  barData = () => {
+    const {barFilters} = this.state;
+    if (this.barTimer) {
+      clearTimeout(this.barTimer);
     }
-    this.areaTimer = setTimeout(() => {
-      getAreaChart(areaFilters).success(res => {
-        this.setState({areaChart: res})
+    this.barTimer = setTimeout(() => {
+      getBarChart(barFilters).success(res => {
+        this.setState({barChart: res})
       })
     }, 500)
   };
@@ -62,7 +63,7 @@ class Dashboard extends Component {
   };
 
   render() {
-    const {pieFilters, areaFilters, pieChart, areaChart} = this.state;
+    const {pieFilters, barFilters, pieChart, barChart} = this.state;
     const {isLoading} = this.props.app.main;
     return (
       <div>
@@ -86,30 +87,33 @@ class Dashboard extends Component {
               <Clearfix />
             </div>
           </Tab>
-          <Tab label="Area Chart" icon={<AreaChartIcon />}>
+          <Tab label="Bar Chart" icon={<BarChartIcon />}>
             <div style={{background: '#fff'}}>
               <Col md={6}>
                 <DatePicker hintText='From' container="inline"
-                            value={areaFilters.from_date} fullWidth={true}
-                            onChange={(_, val) => this.updateFilters('from_date', val, 'area')}/>
+                            value={barFilters.from_date} fullWidth={true}
+                            onChange={(_, val) => this.updateFilters('from_date', val, 'bar')}/>
               </Col>
               <Col md={6}>
                 <DatePicker hintText='To' container="inline"
-                            value={areaFilters.to_date} fullWidth={true}
-                            onChange={(_, val) => this.updateFilters('to_date', val, 'area')}/>
+                            value={barFilters.to_date} fullWidth={true}
+                            onChange={(_, val) => this.updateFilters('to_date', val, 'bar')}/>
 
               </Col>
               <Col md={6}>
-                <TextField hintText='Category' value={areaFilters.category} fullWidth={true}
-                           onChange={(_, val) => this.updateFilters('category', val, 'area')}/>
-
+                <TextField hintText='Category' value={barFilters.category} fullWidth={true}
+                           onChange={(_, val) => this.updateFilters('category', val, 'bar')}/>
               </Col>
               <Col md={6}>
-                <CircularProgress className={isLoading ? 'loading-spinner pull-left' : 'hidden'} size={36}/>
-                <h4 className="text-right">Total: { areaChart.total }</h4>
+                Step:
+                <FlatButton label="Day" secondary={barFilters.step == 1} onTouchTap={() => this.updateFilters('step', 1, 'bar')} />
+                <FlatButton label="Week" secondary={barFilters.step == 7} onTouchTap={() => this.updateFilters('step', 7, 'bar')} />
+                <FlatButton label="Month" secondary={barFilters.step == 30} onTouchTap={() => this.updateFilters('step', 30, 'bar')} />
+                <CircularProgress className={isLoading ? 'loading-spinner pull-right' : 'hidden'} size={36}/>
+                <h4 className="text-right">Total: { barChart.total }</h4>
               </Col>
               <Col md={12}>
-                <AreaChart data={areaChart.data} name="Expenses" title="Area Chart" xAxis={areaChart.xAxis}/>
+                <BarChart data={barChart.data} name="Expenses" title="Bar Chart" xAxis={barChart.xAxis}/>
               </Col>
               <Clearfix />
             </div>
