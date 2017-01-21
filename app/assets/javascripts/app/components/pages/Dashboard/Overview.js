@@ -11,16 +11,16 @@ import {PieChartIcon, BarChartIcon} from '../../common/icons';
 class Dashboard extends Component {
   state = {
     pieFilters: {
-      from_date: new Date(moment().subtract(1, 'months')),
-      to_date: new Date()
+      from_date: new Date(moment().startOf('month')),
+      to_date: new Date(moment().endOf('month'))
     },
     barFilters: {
-      from_date: new Date(moment().subtract(1, 'months')),
-      to_date: new Date(),
+      from_date: new Date(moment().startOf('month')),
+      to_date: new Date(moment().endOf('month')),
       step: 1
     },
     pieChart: {},
-    barChart: {xAxis: []}
+    barChart: {xAxis: [], data: []}
   };
 
   componentDidMount() {
@@ -106,11 +106,14 @@ class Dashboard extends Component {
               </Col>
               <Col md={6}>
                 Step:
-                <FlatButton label="Day" secondary={barFilters.step == 1} onTouchTap={() => this.updateFilters('step', 1, 'bar')} />
-                <FlatButton label="Week" secondary={barFilters.step == 7} onTouchTap={() => this.updateFilters('step', 7, 'bar')} />
-                <FlatButton label="Month" secondary={barFilters.step == 30} onTouchTap={() => this.updateFilters('step', 30, 'bar')} />
+                <FlatButton label="Day" secondary={barFilters.step == 1}
+                            onTouchTap={() => this.updateFilters('step', 1, 'bar')}/>
+                <FlatButton label="Week" secondary={barFilters.step == 7}
+                            onTouchTap={() => this.updateFilters('step', 7, 'bar')}/>
+                <FlatButton label="Month" secondary={barFilters.step == 30}
+                            onTouchTap={() => this.updateFilters('step', 30, 'bar')}/>
                 <CircularProgress className={isLoading ? 'loading-spinner pull-right' : 'hidden'} size={36}/>
-                <h4 className="text-right">Total: { barChart.total }</h4>
+                <h4 className="text-right">Total: { barChart.data.reduce((curr, next) => curr + next, 0) }</h4>
               </Col>
               <Col md={12}>
                 <BarChart data={barChart.data} name="Expenses" title="Bar Chart" xAxis={barChart.xAxis}/>
