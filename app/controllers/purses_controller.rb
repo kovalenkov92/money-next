@@ -4,10 +4,10 @@ class PursesController < ApplicationController
 
   def index
     query = Purse.search_query params
-
     count_query = query.clone.project('COUNT(*)')
 
     @purses = Purse.find_by_sql(query.take(10).skip((params[:page].to_i - 1) * 10).to_sql)
+    $preloader.preload @purses, :currency
     @count = Purse.find_by_sql(count_query.to_sql).count
   end
 

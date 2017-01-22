@@ -4,10 +4,10 @@ class ExpensesController < ApplicationController
 
   def index
     query = Expense.search_query params
-
     count_query = query.clone.project('COUNT(*)')
 
     @expenses = Expense.find_by_sql(query.take(10).skip((params[:page].to_i - 1) * 10).to_sql)
+    $preloader.preload @expenses, :category
     @count = Expense.find_by_sql(count_query.to_sql).count
   end
 

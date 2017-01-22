@@ -11,16 +11,18 @@ class Expense < ActiveRecord::Base
 
     q = expenses
             .project('expenses.*',
-              categories[:id].as('category_id'),
-              categories[:title].as('category_title'),
-              categories[:color].as('category_color'))
+                     categories[:id].as('category_id'),
+                     categories[:title].as('category_title'),
+                     categories[:color].as('category_color'))
             .join(categories).on(expenses[:category_id].eq(categories[:id]))
-            .group(expenses[:id])
+            .group(expenses[:id], categories[:id], categories[:title], categories[:color])
 
-    if Expense.column_names.include?(params[:sort_column]) && %w(asc desc).include?(params[:sort_type])
-        q.order(expenses[params[:sort_column]].send(params[:sort_type] == 'asc' ? :asc : :desc))
+    if %w(amount date comment).include?(params[:sort_column]) && %w(asc desc).include?(params[:sort_type])
+      q.order(expenses[params[:sort_column]].send(params[:sort_type] == 'asc' ? :asc : :desc))
+    elsif (params[:sort_column] == 'category') && %w(asc desc).include?(params[:sort_type])
+      q.order(categories[:title].send(params[:sort_type] == 'asc' ? :asc : :desc))
     else
-        q.order(expenses[:id].desc)
+      q.order(expenses[:id].desc)
     end
 
     q.where(expenses[:id].eq(params[:id])) if params[:id].present?
@@ -31,8 +33,6 @@ class Expense < ActiveRecord::Base
     q.where(expenses[:created_at].in(Date.parse(params[:created_at]).beginning_of_day..Date.parse(params[:created_at]).end_of_day)) if params[:created_at].present?
     q.where(expenses[:updated_at].in(Date.parse(params[:updated_at]).beginning_of_day..Date.parse(params[:updated_at]).end_of_day)) if params[:updated_at].present?
     q.where(categories[:title].matches("%#{params[:category]}%")) if params[:category].present?
-
-    q.group(expenses[:id], categories[:id], categories[:title], categories[:color])
 
     q
   end

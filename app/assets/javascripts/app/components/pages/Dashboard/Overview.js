@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {DatePicker, TextField, Tabs, Tab, CircularProgress, FlatButton} from 'material-ui';
+import {
+  DatePicker,
+  TextField,
+  Tabs,
+  Tab,
+  CircularProgress,
+  FlatButton
+} from 'material-ui';
 import {connect} from 'react-redux';
 import {Col, Clearfix} from 'react-bootstrap';
 import moment from 'moment';

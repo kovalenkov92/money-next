@@ -23,9 +23,9 @@ class ChartsController < ApplicationController
     expenses = Expense.find_by_sql(query.to_sql)
 
     arr, x_axis = [], []
-    start_date.step(end_date, step).each do |e|
-      arr << expenses.select { |ex| (e.beginning_of_day..(e + (step - 1).days).end_of_day).cover? ex.date }.map(&:amount).sum
-      x_axis << (step == 1 ? e.strftime('%d %b %Y') : "#{e.strftime('%d %b %Y')} - #{(e + (step - 1).days).strftime('%d %b %Y')}")
+    start_date.step(end_date, step).each do |date|
+      arr << expenses.select { |expense| (date.beginning_of_day..(date + (step - 1).days).end_of_day).cover? expense.date }.map(&:amount).sum
+      x_axis << (step == 1 ? date.strftime('%d %b %Y') : "#{date.strftime('%d %b %Y')} - #{(date + (step - 1).days).strftime('%d %b %Y')}")
     end
 
     render json: {data: arr, xAxis: x_axis}

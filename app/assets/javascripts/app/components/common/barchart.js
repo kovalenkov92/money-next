@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Chart from 'chart.js';
 
 class BarChart extends Component {
@@ -13,8 +13,8 @@ class BarChart extends Component {
   }
 
   _drawBar = () => {
-    const { data, xAxis } = this.props;
-    const { palette } = this.context.muiTheme;
+    const {data, xAxis} = this.props;
+    const {palette} = this.context.muiTheme;
 
     if (this.barChart) this.barChart.destroy();
     this.barChart = new Chart('barContainer', {
@@ -34,7 +34,7 @@ class BarChart extends Component {
 
   render() {
     return (
-      <canvas id="barContainer" />
+      <canvas id="barContainer"/>
     );
   }
 

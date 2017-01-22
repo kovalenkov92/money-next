@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import ReactPaginate from 'react-paginate';
-import { Row, Col } from 'react-bootstrap';
+import {Row, Col} from 'react-bootstrap';
 import {
   Table,
   TableBody,
@@ -23,8 +23,8 @@ import {
 } from 'material-ui/svg-icons';
 import SortingTh from '../common/SortingTh';
 import Filters from '../common/filtersComponent';
-import { paperStyle } from '../common/styles';
-import { all, destroy } from '../../services/expense';
+import {paperStyle} from '../common/styles';
+import {all, destroy} from '../../services/expense';
 
 class Expenses extends Component {
   state = {
@@ -42,7 +42,7 @@ class Expenses extends Component {
   }
 
   _retrieveExpenses = () => {
-    const { filters } = this.state;
+    const {filters} = this.state;
     all(filters).success(res => {
       this.setState({
         expenses: res.expenses,
@@ -56,9 +56,7 @@ class Expenses extends Component {
 
   handlePageChange = (data) => {
     let selected = data.selected + 1;
-    this.setState({filters:{ ...this.state.filters, page: selected }}, () => {
-      this._retrieveExpenses();
-    });
+    this.setState({filters: {...this.state.filters, page: selected}}, this._retrieveExpenses);
   };
 
   prepareToDestroy = record => {
@@ -70,7 +68,7 @@ class Expenses extends Component {
 
   updateFilters = (filters = []) => {
     let hash = {};
-    filters.forEach(item => { Object.keys(item).forEach(key => hash[key] = item[key]) });
+    filters.forEach(item => Object.keys(item).forEach(key => hash[key] = item[key]));
     this.setState({
       filters: {
         ...this.state.filters,
@@ -80,11 +78,11 @@ class Expenses extends Component {
   };
 
   closeConfirm = () => {
-    this.setState({ showConfirm: false })
+    this.setState({showConfirm: false})
   };
 
   handleDelete = () => {
-    const { selectedRecord } = this.state;
+    const {selectedRecord} = this.state;
     destroy(selectedRecord.id).success(res => {
       this._retrieveExpenses();
       this.closeConfirm();
@@ -92,34 +90,37 @@ class Expenses extends Component {
   };
 
   render() {
-    const { isLoading } = this.props.app.main;
-    const { expenses, showConfirm } = this.state;
-    const { pages_count } = this.state.filters;
-    const { palette } = this.context.muiTheme;
+    const {isLoading} = this.props.app.main;
+    const {expenses, showConfirm} = this.state;
+    const {pages_count} = this.state.filters;
+    const {palette} = this.context.muiTheme;
 
     return (
       <Paper style={paperStyle} zDepth={1}>
         <h2>Expenses</h2>
         <Row>
-          <Col sm={4} smOffset={8} className="text-right" style={{minHeight:61}}>
-            <CircularProgress className={isLoading ? 'loading-spinner' : 'hidden'} size={36} />
+          <Col sm={4} smOffset={8} className="text-right" style={{minHeight: 61}}>
+            <CircularProgress className={isLoading ? 'loading-spinner' : 'hidden'} size={36}/>
             <RaisedButton href='#/expense/new' className='pull-right'
                           primary={true} label='New Expense'
             />
           </Col>
         </Row>
         <Filters columns={[
-          { label: 'Amount', key: 'amount', type: 'float' },
-          { label: 'Comment', key: 'comment', type: 'text' },
-          { label: 'Date', key: 'date', type: 'datetime' },
-          { label: 'Category', key: 'category', type: 'string' }
-        ]} update={this.updateFilters} />
+          {label: 'Amount', key: 'amount', type: 'float'},
+          {label: 'Comment', key: 'comment', type: 'text'},
+          {label: 'Date', key: 'date', type: 'datetime'},
+          {label: 'Category', key: 'category', type: 'string'}
+        ]} update={this.updateFilters}/>
         <Table>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
-                <TableHeaderColumn><SortingTh update={this.updateFilters} column='amount'>Amount</SortingTh></TableHeaderColumn>
-                <TableHeaderColumn><SortingTh update={this.updateFilters} column='date'>Date</SortingTh></TableHeaderColumn>
-                <TableHeaderColumn><SortingTh update={this.updateFilters} column='category_id'>Category</SortingTh></TableHeaderColumn>
+              <TableHeaderColumn><SortingTh update={this.updateFilters}
+                                            column='amount'>Amount</SortingTh></TableHeaderColumn>
+              <TableHeaderColumn><SortingTh update={this.updateFilters}
+                                            column='date'>Date</SortingTh></TableHeaderColumn>
+              <TableHeaderColumn><SortingTh update={this.updateFilters}
+                                            column='category'>Category</SortingTh></TableHeaderColumn>
               <TableHeaderColumn>Actions</TableHeaderColumn>
 
             </TableRow>
@@ -133,9 +134,12 @@ class Expenses extends Component {
                     <TableRowColumn>{ item.date  }</TableRowColumn>
                     <TableRowColumn>{ item.category  }</TableRowColumn>
                     <TableRowColumn className='text-right'>
-                      <IconButton onTouchTap={() => location.hash = `#/expense/${item.id}`}><ActionVisibility color={palette.primary1Color} /></IconButton>
-                      <IconButton onTouchTap={() => location.hash = `#/expense/${item.id}/edit`}><ImageEdit color={palette.accent1Color} /></IconButton>
-                      <IconButton onTouchTap={this.prepareToDestroy.bind(this,item)}><ActionDelete color="#c62828" /></IconButton>
+                      <IconButton onTouchTap={() => location.hash = `#/expense/${item.id}`}><ActionVisibility
+                        color={palette.primary1Color}/></IconButton>
+                      <IconButton onTouchTap={() => location.hash = `#/expense/${item.id}/edit`}><ImageEdit
+                        color={palette.accent1Color}/></IconButton>
+                      <IconButton onTouchTap={this.prepareToDestroy.bind(this, item)}><ActionDelete
+                        color="#c62828"/></IconButton>
                     </TableRowColumn>
                   </TableRow>
                 )
@@ -147,7 +151,7 @@ class Expenses extends Component {
           title="Are you sure?"
           actions={[
             <FlatButton onTouchTap={this.closeConfirm} label='Cancel'/>,
-            <FlatButton secondary={true} onTouchTap={this.handleDelete} label='Confirm' />
+            <FlatButton secondary={true} onTouchTap={this.handleDelete} label='Confirm'/>
           ]}
           modal={false}
           open={showConfirm}
