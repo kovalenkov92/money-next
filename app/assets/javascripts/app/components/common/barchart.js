@@ -13,7 +13,7 @@ class BarChart extends Component {
   }
 
   _drawBar = () => {
-    const {data, xAxis} = this.props;
+    const {categories, xAxis} = this.props;
     const {palette} = this.context.muiTheme;
 
     if (this.barChart) this.barChart.destroy();
@@ -21,13 +21,25 @@ class BarChart extends Component {
       type: 'bar',
       data: {
         labels: xAxis,
-        datasets: [{
-          label: 'Expenses during time',
-          borderWidth: 2,
-          pointRadius: 1,
-          backgroundColor: palette.accent1Color,
-          data: data
-        }]
+        datasets: categories.map(item => {
+          return {
+            label: item.label,
+            borderWidth: 2,
+            pointRadius: 1,
+            backgroundColor: item.color,
+            data: item.data
+          }
+        })
+      },
+      options: {
+        scales: {
+          xAxes: [{
+            stacked: true
+          }],
+          yAxes: [{
+            stacked: true
+          }]
+        }
       }
     });
   };

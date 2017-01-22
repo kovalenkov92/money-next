@@ -27,7 +27,7 @@ class Dashboard extends Component {
       step: 1
     },
     pieChart: {},
-    barChart: {xAxis: [], data: []}
+    barChart: {xAxis: [], categories: []}
   };
 
   componentDidMount() {
@@ -120,10 +120,10 @@ class Dashboard extends Component {
                 <FlatButton label="Month" secondary={barFilters.step == 30}
                             onTouchTap={() => this.updateFilters('step', 30, 'bar')}/>
                 <CircularProgress className={isLoading ? 'loading-spinner pull-right' : 'hidden'} size={36}/>
-                <h4 className="text-right">Total: { barChart.data.reduce((curr, next) => curr + next, 0) }</h4>
+                <h4 className="text-right">Total: { barChart.total }</h4>
               </Col>
               <Col md={12}>
-                <BarChart data={barChart.data} name="Expenses" title="Bar Chart" xAxis={barChart.xAxis}/>
+                <BarChart categories={barChart.categories} name="Expenses" title="Bar Chart" xAxis={barChart.xAxis}/>
               </Col>
               <Clearfix />
             </div>
