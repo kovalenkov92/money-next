@@ -21,7 +21,7 @@ import {
   ImageEdit,
   ActionDelete
 } from 'material-ui/svg-icons';
-import SortingTh from '../common/SortingTh';
+import SortingTh from '../common/sorting_th';
 import Filters from '../common/filtersComponent';
 import { paperStyle } from '../common/styles';
 import { all, destroy } from '../../services/category';
