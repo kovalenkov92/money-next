@@ -6,7 +6,7 @@ import { Router, Route, IndexRoute } from "react-router";
 import BaseLayout from "./components/layouts/Base";
 import DashboardLayout from "./components/layouts/Dashboard";
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import DashboardOverviewPage from "./components/pages/dashboard/Overview";
+import DashboardOverviewPage from "./components/pages/Dashboard/overview";
 import LoginPage from "./components/pages/Login";
 import { store, history } from './createStore';
 import { check } from './services/sessions';

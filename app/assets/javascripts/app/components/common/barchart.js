@@ -26,7 +26,7 @@ class BarChart extends Component {
             label: item.label,
             borderWidth: 2,
             pointRadius: 1,
-            backgroundColor: item.color,
+            backgroundColor: hexToRgbA(item.color, 0.7),
             data: item.data
           }
         })
