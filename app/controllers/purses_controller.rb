@@ -2,11 +2,13 @@ class PursesController < ApplicationController
 
   load_and_authorize_resource :purse
 
+  before_action :convince_pagination
+
   def index
     query = Purse.search_query params
     count_query = query.clone.project('COUNT(*)')
 
-    @purses = Purse.find_by_sql(query.take(10).skip((params[:page].to_i - 1) * 10).to_sql)
+    @purses = Purse.find_by_sql(query.take(@per_page).skip((@page - 1) * @per_page).to_sql)
     $preloader.preload @purses, :currency
     @count = Purse.find_by_sql(count_query.to_sql).count
   end
@@ -44,6 +46,13 @@ class PursesController < ApplicationController
 
   def purse_params
     params.require(:purse).permit!
+  end
+
+  def convince_pagination
+    @page = params[:page].to_i
+    @page = 1 if @page < 1
+    @per_page = params[:per_page].to_i
+    @per_page = 10 if @per_page < 1
   end
 
 end

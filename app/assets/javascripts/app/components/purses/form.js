@@ -27,7 +27,8 @@ class PurseForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      purse: {}
+      purse: {},
+      currencies: []
     };
   }
 
@@ -51,7 +52,7 @@ class PurseForm extends Component {
       clearTimeout(this.currenciesTimer);
     }
     this.currenciesTimer = setTimeout(() => {
-      getCurrencies({title:q,page:1}).success(res => {
+      getCurrencies({per_page:100}).success(res => {
         this.setState({currencies:res.currencies})
       })
     }, 500)
@@ -109,15 +110,16 @@ class PurseForm extends Component {
                   </ControlLabel>
                 </Col>
                 <Col sm={10}>
-                  <Select
-                    valueKey="id"
-                    labelKey="title"
-                    value={purse.currency}
-                    options={currencies}
-                    placeholder='Select Currency'
-                    onChange={val => this.handleChange('currency',val)}
-                    onInputChange={this._retrieveCurrencies}
-                  />
+                  <SelectField
+                    floatingLabelText="Currency"
+                    maxHeight={200}
+                    value={purse.currency_id}
+                    onChange={(event, index, val) => this.handleChange('currency_id', val)}
+                  >
+                    {
+                      currencies.map(item => <MenuItem key={item.id} value={item.id} primaryText={item.title} />)
+                    }
+                  </SelectField>
                 </Col>
               </Row>
             </FormGroup>

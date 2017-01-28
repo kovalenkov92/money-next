@@ -11,10 +11,8 @@ export function upsert(model){
   body.append('expense[amount]', model.amount || '' );
   body.append('expense[comment]', model.comment || '' );
   body.append('expense[date]', model.date || '' );
-  if (model.category)
-    body.append('expense[category_id]', model.category.id );
-  if (model.purse)
-    body.append('expense[purse_id]', model.purse.id );
+  body.append('expense[category_id]', model.category_id || '' );
+  body.append('expense[purse_id]', model.purse_id || '' );
 
   if(model.id){
     return http.put({ url:`/expenses/${model.id}`, body })

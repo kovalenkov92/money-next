@@ -2,12 +2,14 @@ class CategoriesController < ApplicationController
 
   load_and_authorize_resource :category
 
+  before_action :convince_pagination
+
   def index
     query = Category.search_query params
 
     count_query = query.clone.project('COUNT(*)')
 
-    @categories = Category.find_by_sql(query.take(10).skip((params[:page].to_i - 1) * 10).to_sql)
+    @categories = Category.find_by_sql(query.take(@per_page).skip((@page - 1) * @per_page).to_sql)
     @count = Category.find_by_sql(count_query.to_sql).count
   end
 
@@ -44,6 +46,13 @@ class CategoriesController < ApplicationController
 
   def category_params
     params.require(:category).permit!
+  end
+
+  def convince_pagination
+    @page = params[:page].to_i
+    @page = 1 if @page < 1
+    @per_page = params[:per_page].to_i
+    @per_page = 10 if @per_page < 1
   end
 
 end

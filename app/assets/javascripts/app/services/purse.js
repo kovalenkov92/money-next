@@ -9,8 +9,7 @@ export function upsert(model){
   let body = new FormData();
 
   body.append('purse[title]', model.title || '' );
-  if (model.currency)
-    body.append('purse[currency_id]', model.currency.id);
+  body.append('purse[currency_id]', model.currency.id || '' );
 
   if(model.id){
     return http.put({ url:`/purses/${model.id}`, body })

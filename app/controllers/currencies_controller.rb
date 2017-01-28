@@ -2,12 +2,14 @@ class CurrenciesController < ApplicationController
 
   load_and_authorize_resource :currency
 
+  before_action :convince_pagination
+
   def index
     query = Currency.search_query params
 
     count_query = query.clone.project('COUNT(*)')
 
-    @currencies = Currency.find_by_sql(query.take(10).skip((params[:page].to_i - 1) * 10).to_sql)
+    @currencies = Currency.find_by_sql(query.take(@per_page).skip((@page - 1) * @per_page).to_sql)
     @count = Currency.find_by_sql(count_query.to_sql).count
   end
 
@@ -45,5 +47,13 @@ class CurrenciesController < ApplicationController
   def currency_params
     params.require(:currency).permit!
   end
+
+  def convince_pagination
+    @page = params[:page].to_i
+    @page = 1 if @page < 1
+    @per_page = params[:per_page].to_i
+    @per_page = 10 if @per_page < 1
+  end
+
 
 end
