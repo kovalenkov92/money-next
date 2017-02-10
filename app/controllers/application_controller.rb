@@ -11,32 +11,13 @@ class ApplicationController < ActionController::Base
   rescue_from Exception, with: :catch_exceptions
 
   def authenticate_user
-    if current_user
-      if Time.now - current_session.updated_at > 30.minutes
-        current_session.destroy
-        respond_with_errors
-      else
-        current_session.update_attribute :updated_at, Time.now
-      end
-    else
-      if params[:session]
-        user = User.find_by_email params[:session][:email].to_s.downcase
-
-        if user && user.authenticate(params[:session][:password])
-          sign_in user
-        else
-          render json: { errors: 'Wrong email or password.' }, status: :unauthorized and return
-        end
-      else
-        respond_with_errors
-      end
-    end
+    respond_with_errors unless current_session
   end
 
   private
 
   def respond_with_errors
-    render json: {errors: ['Access Denied!'] }, status: :unauthorized
+    render json: {errors: ['You shall not pass!'] }, status: :unauthorized
   end
 
   def catch_exceptions(e)
