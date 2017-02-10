@@ -79,7 +79,7 @@ class Expense extends Component {
               </Col>
               <Col sm={10}>
                 <span className="form-control-static">
-                  { expense.category.title }
+                  { expense.category_title }
                 </span>
               </Col>
             </Row>

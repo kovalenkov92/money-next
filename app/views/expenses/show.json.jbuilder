@@ -5,6 +5,7 @@ json.expense do
   json.comment @expense.comment
   json.date @expense.date
   json.category_id @expense.category_id
+  json.category_title @expense.category.try(:title)
   json.purse_id @expense.purse_id
   json.updated_at @expense.updated_at
 end

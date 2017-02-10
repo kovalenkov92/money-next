@@ -14,3 +14,11 @@ function hexToRgbA(hex, alpha = 1){
   }
   throw new Error('Bad Hex');
 }
+
+String.prototype.underscore = function() {
+  return this
+    .replace(/([A-Z]+)([A-Z][a-z])/g,'\$1_\$2')
+    .replace(/([a-z\d])([A-Z])/g,'\$1_\$2')
+    .replace('-', '_')
+    .toLowerCase()
+};
