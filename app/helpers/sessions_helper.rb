@@ -29,7 +29,6 @@ module SessionsHelper
   end
 
   def sign_out
-    current_session.destroy if current_session
     cookies.permanent[:session_token] = nil
     self.current_user = nil
   end
