@@ -3,10 +3,15 @@ class ExpensesController < ApplicationController
   load_and_authorize_resource :expense
 
   def index
+    page = params[:page].to_i
+    page = 1 if page < 1
+    per_page = params[:per_page].to_i
+    per_page = 10 if per_page < 1
+
     query = Expense.search_query params
     count_query = query.clone.project('COUNT(*)')
 
-    @expenses = Expense.find_by_sql(query.take(10).skip((params[:page].to_i - 1) * 10).to_sql)
+    @expenses = Expense.find_by_sql(query.take(per_page).skip((page - 1) * per_page).to_sql)
     $preloader.preload @expenses, :category
     @count = Expense.find_by_sql(count_query.to_sql).count
   end

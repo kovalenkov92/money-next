@@ -1,10 +1,10 @@
 class SessionsController < ApplicationController
 
-  skip_before_filter :authenticate_user, only: [:create, :check]
+  skip_before_action :authenticate_user, only: [:create, :check]
 
   def destroy
     sign_out
-    render json: { ok: true }
+    head :no_content
   end
 
   def create
@@ -19,10 +19,10 @@ class SessionsController < ApplicationController
   end
 
   def check
-    if current_user
-      render json: { current_user: { email: current_user.email, role: current_user.role.name }}
+    if current_session.present?
+      head :no_content
     else
-      render json: { errors: ['You shall not pass!'] }, status: :unauthorized
+      respond_with_errors
     end
   end
 end
